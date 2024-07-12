@@ -1,0 +1,46 @@
+plugins {
+    id 'java'
+    id 'org.springframework.boot' version '3.2.0'
+    id 'io.spring.dependency-management' version '1.1.4'
+    id 'com.netflix.dgs.codegen' version '6.1.1'
+}
+
+group = 'com.course'
+version = '0.0.1-SNAPSHOT'
+
+java {
+    sourceCompatibility = '17'
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    implementation 'org.springframework.boot:spring-boot-starter-web'
+    implementation 'org.springframework.boot:spring-boot-starter-data-jpa'
+    implementation(platform('com.netflix.graphql.dgs:graphql-dgs-platform-dependencies:7.3.2'))
+    implementation 'com.netflix.graphql.dgs:graphql-dgs-spring-boot-starter:7.3.2'
+    implementation 'com.netflix.graphql.dgs:graphql-dgs-extended-scalars:7.3.2'
+    developmentOnly 'org.springframework.boot:spring-boot-devtools'
+    runtimeOnly 'org.postgresql:postgresql'
+    testImplementation 'org.springframework.boot:spring-boot-starter-test'
+    implementation 'net.datafaker:datafaker:2.0.1'
+    implementation 'org.apache.commons:commons-lang3:3.12.0'
+}
+
+
+tasks.named('test') {
+    useJUnitPlatform()
+}
+
+generateJava {
+    packageName = 'com.course.graphql.generated'
+    generateClient = true
+    typeMapping = [
+            "Date"          : "java.time.LocalDate",
+            "NonNegativeInt": "java.lang.Integer",
+            "Url"           : "java.net.URL",
+            "DateTime"      : "java.time.OffsetDateTime"
+    ]
+}

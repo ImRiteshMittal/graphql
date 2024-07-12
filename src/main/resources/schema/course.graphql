@@ -1,0 +1,36 @@
+scalar Date
+scalar Url
+scalar NonNegativeInt
+scalar DateTime
+
+type Query{
+    allHellos : [Hello]
+    oneHello : Hello
+    books(author: String): [Book]
+    booksByRelease(releasedInput: ReleaseHistoryInput!): [Book]
+    mobileApps(mobileAppFilter: MobileAppFilter): [MobileApp]
+    pets(petFilter: PetFilter): [Pet]
+
+    me: User!
+    problemLatestList: [Problem!]
+    itemSearch(filter: SearchItemFilter): [SearchableItems]
+    problemDetail(id: ID!): Problem!
+}
+
+type Mutation{
+    userCreate(user: UserCreateInput!): UserResponse!
+    userLogin(user: UserLoginInput!): UserResponse!
+    userActivation(user: UserActivationInput!): UserActivationResponse!
+    problemCreate(problem: ProblemCreateInput!): ProblemResponse!
+    solutionCreate(solution: SolutionCreateInput!): SolutionResponse!
+    solutionVote(vote: SolutionVoteInput!): SolutionResponse!
+}
+
+type Subscription{
+    problemAdded: Problem!
+    solutionVoteChanged(solutionID: ID!): Solution!
+}
+
+#schema{
+#    query : Query
+#}
